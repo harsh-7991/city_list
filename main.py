@@ -247,7 +247,9 @@ def get_city_list():
 if __name__ == "__main__":
     # app.debug = True
     # app.run()
-    app.run(host='0.0.0.0', port=4440, debug=True)
+    # app.run(host='0.0.0.0', port=4440, debug=True)
+    app.run(debug=True)
+
 
 	# host = '0.0.0.0 -> this will make your server publically accessible (on local network like WiFi, LAN, etc)
 	# port = 4440 -> this will run your server on port 4440
