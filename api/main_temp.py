@@ -9,7 +9,7 @@ from dotenv import dotenv_values, load_dotenv
 
 
 app = Flask(__name__)
-app.secret_key = "ads24fb8fb82bfcf82bwdr54vdvfschsf3bf" # chaneg this key to your own secret key
+app.secret_key = "adsbs8fb8adawdr54vdfjfhsf3bf" # chaneg this key to your own secret key
 app.url_map.strict_slashes = False # <-- This is used to remove trailing slash from the url, if you want to keep it then remove this line (--> not recommended to remove, removing this line will cause problem in get_district_list() and may be in other @app.route() <--).
 
 load_dotenv()
@@ -245,11 +245,11 @@ def get_city_list():
 
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # app.debug = True
     # app.run()
     # app.run(host='0.0.0.0', port=4440, debug=True)
-    app.run(debug=True)
+    # app.run(debug=True)
 
 
 	# host = '0.0.0.0 -> This will make your server publically accessible (on local network like WiFi, LAN, etc)
