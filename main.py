@@ -251,7 +251,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-	# host = '0.0.0.0 -> this will make your server publically accessible (on local network like WiFi, LAN, etc)
+	# host = '0.0.0.0 -> This will make your server publically accessible (on local network like WiFi, LAN, etc)
 	# port = 4440 -> this will run your server on port 4440
 	# debug = True -> this will enable debug mode, so you can see errors and logs in your terminal
 
