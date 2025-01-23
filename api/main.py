@@ -94,7 +94,6 @@ def get_all_country_list():
 
 
 
-
 # Get all list of States by country_code
 @app.route("/get_state_list", methods=["GET"])
 def get_state_list():
