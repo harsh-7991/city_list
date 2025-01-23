@@ -25,12 +25,12 @@ def get_db_connection():
 # Index Page
 @app.route("/")
 def index():
-    return render_template("welcome.html")
+    return render_template("Templates/welcome.html")
 
 # Navigation Page
 @app.route("/navigate")
 def navigate():
-    return render_template("navigate.html")
+    return render_template("Templates/navigate.html")
 
 # Get all list of Countries
 @app.route("/get_all_country_list", methods=["GET"])
