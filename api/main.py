@@ -25,12 +25,12 @@ def get_db_connection():
 # Index Page
 @app.route("/")
 def index():
-    return render_template("Templates/welcome.html")
+    return render_template("index.html")
 
 # Navigation Page
 @app.route("/navigate")
 def navigate():
-    return render_template("Templates/navigate.html")
+    return render_template("navigate.html")
 
 # Get all list of Countries
 @app.route("/get_all_country_list", methods=["GET"])
@@ -123,5 +123,5 @@ def get_city_list():
     response_data = {"error": False, "data": data}
     return jsonify(response_data)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)

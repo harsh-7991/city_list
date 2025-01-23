@@ -245,11 +245,11 @@ def get_city_list():
 
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # app.debug = True
     # app.run()
     # app.run(host='0.0.0.0', port=4440, debug=True)
-    # app.run(debug=True)
+    app.run(debug=True)
 
 
 	# host = '0.0.0.0 -> This will make your server publically accessible (on local network like WiFi, LAN, etc)
