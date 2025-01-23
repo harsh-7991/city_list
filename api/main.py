@@ -25,7 +25,8 @@ def get_db_connection():
 # Index Page
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return 'Hello, World!'
+    # return render_template("index.html")
 
 # Navigation Page
 @app.route("/navigate")
