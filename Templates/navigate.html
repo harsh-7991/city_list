@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<title>Navigate Page</title>
+		<style>
+
+			.div_list_container{
+				display: flex;
+				flex-direction: row;
+			}
+
+			.div_country_list_container{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				align-content: flex-start;
+				flex-wrap: nowrap;
+				border-right: 1px solid crimson;
+				width: max-content;
+			}
+			.div_state_list_container{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				align-content: flex-start;
+				flex-wrap: nowrap;
+				border-right: 1px solid crimson;
+				width: max-content;
+			}
+			.div_district_list_container{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				align-content: flex-start;
+				flex-wrap: nowrap;
+				border-right: 1px solid crimson;
+				width: max-content;
+			}
+			.div_cities_list_container{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				align-content: flex-start;
+				flex-wrap: nowrap;
+				border-right: 1px solid crimson;
+				width: max-content;
+			}
+			table{
+				border-top:1px solid black;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="div_main_body" class="div_main_body">
+			<div id="div_list_container" class="div_list_container">
+			
+				<div id="div_country_list_container" class="div_country_list_container">
+					<div>
+						<span>Country List</span>
+					</div>
+					<table>
+						<thead>
+							<th>#</th>
+							<th>Code</th>
+							<th>Name</th>
+						</thead>
+
+						<tbody id="country_list_table_body" class="country_list_table_body">
+
+						</tbody>
+					</table>
+				</div>
+
+				<div id="div_state_list_container" class="div_state_list_container">
+					<div>
+						<span>State List</span>
+					</div>
+					<table>
+						<thead>
+							<th>#</th>
+							<th>Code</th>
+							<th>Type</th>
+							<th>Name</th>
+						</thead>
+
+						<tbody id="state_list_table_body" class="state_list_table_body">
+
+						</tbody>
+					</table>
+				</div>
+
+				<div id="div_district_list_container" class="div_district_list_container">
+					<div>
+						<span>District List</span>
+					</div>
+					<table>
+						<thead>
+							<th>#</th>
+							<th>State</th>
+							<th>Distrit ID</th>
+							<th>Name</th>
+						</thead>
+
+						<tbody id="district_list_table_body" class="district_list_table_body">
+
+						</tbody>
+					</table>
+				</div>
+
+				<div id="div_cities_list_container" class="div_cities_list_container">
+					<div>
+						<span>City List</span>
+					</div>
+					<table>
+						<thead>
+							<th>#</th>
+							<th>State</th>
+							<th>District ID</th>
+							<th>City ID</th>
+							<th>Name</th>
+						</thead>
+
+						<tbody id="city_list_table_body" class="city_list_table_body">
+
+						</tbody>
+					</table>
+				</div>
+			
+			</div>
+		</div>
+
+		<script>
+			$(document).ready(function(){
+
+				get_all_country_list();
+
+				function get_all_country_list() {
+					$.ajax({
+						url: "/get_all_country_list",
+						type: "GET",
+						success: function(response){
+							// console.log(response.data);
+							if(response.error == false){
+								render_country_list(response.data);
+								// $("#div_country_list_container").append(response.data);
+							}if(response.success == true){
+								console.log("Error: " );
+								console.log(response);
+							}
+						}
+					});
+				}
+
+				function render_country_list(data){
+					// console.log(data);
+
+					$("#country_list_table_body").empty("");
+
+					let count_rows = 0;
+					data.forEach(element => {
+						count_rows += 1;
+						const name = element['name'];
+						const code = element['Code'];
+
+						const block = `
+										<tr>
+											<td>${count_rows}</td>
+											<td>${code}</td>
+											<td><a href="" data-btn="true" data-type="country" data-county-code="${code}" data-country-name="${name}">${name}</a></td>
+										</tr>
+									`;
+
+						$("#country_list_table_body").append(block);
+
+					});
+
+					$("[data-btn='true']").click(function(event){
+						event.preventDefault();
+						btn_click_event_selector(event);
+					});
+
+				}
+
+
+				function btn_click_event_selector(event){
+
+					const type = $(event.target).attr("data-type");
+
+					if (type == "country"){
+						get_state_list(event);
+					}
+					if (type == "state"){
+						get_district_list(event);
+					}
+					if (type == "district"){
+						get_city_list(event);
+					}
+				}
+
+
+				function get_state_list(event){
+
+					const country_code = $(event.target).attr("data-country-code");
+
+					$.ajax({
+						url: "/get_state_list?country_code="+country_code,
+						type: "GET",
+						success: function(response){
+							// console.log(response.data);
+							if(response.error == false){
+								render_state_list(response.data);
+							}if(response.success == true){
+								console.log("Error: " );
+								console.log(response);
+							}
+						}
+					});
+				}
+
+				function render_state_list(data){
+					// console.log(data);
+
+					$("#state_list_table_body").empty();
+					$("#district_list_table_body").empty();
+					$("#city_list_table_body").empty();
+
+					let count_rows = 0;
+					data.forEach(element => {
+						count_rows += 1;
+						const name = element['name'];
+						const state_code = element['state_code'];
+						const type = element['type'];
+
+
+						const block = `
+										<tr>
+											<td>${count_rows}</td>
+											<td>${state_code}</td>
+											<td>${type}</td>
+											<td><a href="" data-btn="true" data-type="state" data-state-code="${state_code}" data-sate-name="${name}">${name}</a></td>
+										</tr>
+									`;
+
+						$("#state_list_table_body").append(block);
+
+					});
+
+					$("[data-btn='true']").click(function(event){
+						event.preventDefault();
+						btn_click_event_selector(event);
+					});
+
+				}
+
+
+				function get_district_list(event){
+
+					const state_code = $(event.target).attr("data-state-code");
+
+					$.ajax({
+						url: "/get_district_list?state_code="+state_code,
+						type: "GET",
+						success: function(response){
+							// console.log(response.data);
+							if(response.error == false){
+								render_district_list(response.data);
+							}else
+							if(response.error == true){
+								console.log("Error: " );
+								console.log(response);
+							}
+						}
+					});
+				}
+
+				function render_district_list(data){
+					// console.log(data);
+
+					$("#district_list_table_body").empty();
+					$("#city_list_table_body").empty();
+
+
+					let count_rows = 0;
+					data.forEach(element => {
+						count_rows += 1;
+						const name = element['name'];
+						const state_code = element['state_code'];
+						const district_code = element['district_id'];
+
+						const block = `
+										<tr>
+											<td>${count_rows}</td>
+											<td>${state_code}</td>
+											<td>${district_code}</td>
+											<td><a href="" data-btn="true" data-type="district" data-state-code="${state_code}" data-district-code="${district_code}" data-district-name="${name}">${name}</a></td>
+										</tr>
+									`;
+
+						$("#district_list_table_body").append(block);
+
+					});
+
+					$("[data-btn='true']").click(function(event){
+						event.preventDefault();
+						btn_click_event_selector(event);
+					});
+
+				}
+
+
+
+				function get_city_list(event){
+
+					const district_code = $(event.target).attr("data-district-code");
+
+					$.ajax({
+						url: "/get_city_list?district_code="+district_code,
+						type: "GET",
+						success: function(response){
+							// console.log(response.data);
+							if(response.error == false){
+								render_city_list(response.data);
+							}else
+							if(response.error == true){
+								console.log("Error: " );
+								console.log(response);
+							}
+						}
+					});
+				}
+
+				function render_city_list(data){
+					// console.log(data);
+
+					$("#city_list_table_body").empty();
+
+					let count_rows = 0;
+					data.forEach(element => {
+						count_rows += 1;
+						const name = element['name'];
+						const state_code = element['state_code'];
+						const district_code = element['district_id'];
+						const city_id = element['id'];
+
+
+						const block = `
+										<tr>
+											<td>${count_rows}</td>
+											<td>${state_code}</td>
+											<td>${district_code}</td>
+											<td>${city_id}</td>
+											<td>${name}</td>
+										</tr>
+									`;
+
+						$("#city_list_table_body").append(block);
+
+					});
+
+				}
+
+			});
+		</script>
+
+	</body>
+</html>
