@@ -12,6 +12,8 @@ app = Flask(__name__)
 app.secret_key = "ads24fb8fb82bfcf82bwdr54vdvfschsf3bf"  # Change this key to your own secret key
 app.url_map.strict_slashes = False  # Disable strict slashes in URLs
 
+print(os.getenv('MYSQL_DB'))
+
 # Database configuration using environment variables
 def get_db_connection():
     return pymysql.connect(
@@ -124,5 +126,5 @@ def get_city_list():
     response_data = {"error": False, "data": data}
     return jsonify(response_data)
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
