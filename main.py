@@ -99,7 +99,7 @@ def get_state_list():
 
 
 	cc = request.args.get('country_code')
-	print(cc)
+	# print(cc)
 
 	query =""
 
@@ -162,7 +162,7 @@ def get_district_list():
 		query = "SELECT * FROM india.district ORDER BY name ASC"
 
 
-	print(query)
+	# print(query)
 
 	cursor = mysql_db.connection.cursor()
 	cursor.execute(query)
