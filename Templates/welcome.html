@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>World API</title>
+		<style>
+			.div_link_container{
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+		<div id="" class="">
+			<div id="" class="">
+				<h1>World API</h1>
+				<a href="/navigate">Go Here for List Navigation</a>
+			</div>
+
+			<div>
+				<h2>All Links</h2>
+			</div>
+
+			<div class="div_link_container">
+				<h3>Get All Country</h3>
+				<a href="/get_all_country_list">Get All Country List (/get_all_country_list)</a>
+
+				<br>
+
+				<h3>Get All States</h3>
+				<a href="/get_state_list">Get States/ Union Territory List Of India (/get_state_list)(will give parameter error)</a>
+				<a href="/get_state_list?country_code=IND">Get States/ Union Territory List Of India (/get_state_list/IND)</a>
+
+				<br>
+
+				<h3>Get District</h3>
+				<a href="/get_district_list">Get District list by states (/get_district_list)(will give parameter error)</a>
+				<a href="/get_district_list?state_code=MH">Get District list by states (/get_district_list?state_code=MH)</a>
+				<a href="/get_district_list?country_code=IND">Get District list by states (/get_district_list?country_code=IND)</a>
+				<a href="/get_district_list?country_code=IND&state_code=MH">Get District list by states (/get_district_list?country_code=IND&state_code=MH)</a>
+
+
+				<br>
+
+				<h3>Get Cities</h3>
+				<a href="/get_city_list">Get Cities list by states (/get_city_list)(will give parameter error)</a>
+				<br>
+				<a href="/get_city_list?country_code=IND">Get Cities list by Only Country (/get_city_list?country_code=IND)</a>
+				<a href="/get_city_list?state_code=MH">Get Cities list by Only State (/get_city_list?state_code=MH)</a>
+				<a href="/get_city_list?district_code=563">Get Cities list by Only District (/get_city_list?district_code=563)</a>
+				<br>
+
+				<a href="/get_city_list?country_code=IND&state_code=MH">Get Cities list by Country and State (/get_city_list?country_code=IND&state_code=MH)</a>
+				<a href="/get_city_list?country_code=IND&district_code=563">Get Cities list by Country and District (/get_city_list?country_code=IND&district_code=563)</a>
+				<a href="/get_city_list?state_code=MH&district_code=563">Get Cities list by State and District (/get_city_list?state_code=MH&district_code=563)</a>
+				<br>
+
+				<a href="/get_city_list?country_code=IND&state_code=MH&district_code=563">Get Cities list by Country, State and District (/get_city_list?country_code=IND)</a>
+
+
+			</div>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	</body>
+
+</html>
