@@ -148,7 +148,7 @@
 						url: "/get_all_country_list",
 						type: "GET",
 						success: function(response){
-							// console.log(response.data);
+							console.log(response.data);
 							if(response.error == false){
 								render_country_list(response.data);
 								// $("#div_country_list_container").append(response.data);
