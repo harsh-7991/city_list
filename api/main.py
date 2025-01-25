@@ -39,14 +39,12 @@ def navigate():
 @app.route("/get_all_country_list", methods=["GET"])
 def get_all_country_list():
     conn = get_db_connection()
-    # conn = sqlite3.connect(DATABASE)
-    # conn.row_factory = sqlite3.Row  # Rows can be accessed as dictionaries
+
     try:
         cursor = conn.cursor()
         columns = 'name, country_code'
         cursor.execute(f'SELECT {columns} FROM country ORDER BY name ASC')
-        # cursor.execute(f"SELECT * FROM 'country' ORDER BY name ASC")
-        # cursor.execute('SELECT ' + columns + ' FROM country ORDER BY name ASC')
+
 
         data = [dict(row) for row in cursor.fetchall()]
     finally:
