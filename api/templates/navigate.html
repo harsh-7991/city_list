@@ -169,13 +169,13 @@
 					data.forEach(element => {
 						count_rows += 1;
 						const name = element['name'];
-						const code = element['Code'];
+						const code = element['country_code'];
 
 						const block = `
 										<tr>
 											<td>${count_rows}</td>
 											<td>${code}</td>
-											<td><a href="" data-btn="true" data-type="country" data-county-code="${code}" data-country-name="${name}">${name}</a></td>
+											<td><a href="" data-btn="true" data-type="country" data-country-code="${code}" data-country-name="${name}">${name}</a></td>
 										</tr>
 									`;
 

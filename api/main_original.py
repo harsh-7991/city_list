@@ -1,33 +1,33 @@
 from flask import *
 import os
-import sqlite3
-from icecream import ic
-# from dotenv import load_dotenv
+import pymysql
+from icecream import ic  # Icecream for debugging, alternative to print()
+from dotenv import dotenv_values, load_dotenv
 
 # Load environment variables
-# load_dotenv()
+load_dotenv()
+config = dotenv_values(".env")
 
 app = Flask(__name__)
-app.secret_key = "ads2cf82bwdr54vdvfschsf3bf"
-app.url_map.strict_slashes = False
+app.secret_key = "ads24fb8fb82bfcf82bwdr54vdvfschsf3bf"  # Change this key to your own secret key
+app.url_map.strict_slashes = False  # Disable strict slashes in URLs
 
-# DATABASE = "./db/india.db"  # Path to the SQLite database file
-# DATABASE = "D:/Projects/Z Project/World_api/api/india.db"  # Full path to the SQLite database file
+print(os.getenv('MYSQL_DB'))
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE = os.path.join(BASE_DIR, "db/india.db")
-# print(DATABASE)
-
-# Database configuration
+# Database configuration using environment variables
 def get_db_connection():
-    # print(DATABASE)
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row  # Rows can be accessed as dictionaries
-    return conn
+    return pymysql.connect(
+        host=os.getenv('MYSQL_HOST'),
+        user=os.getenv('MYSQL_USER'),
+        password=os.getenv('MYSQL_PASSWORD'),
+        database=os.getenv('MYSQL_DB'),
+        cursorclass=pymysql.cursors.DictCursor  # Converts results to a JSON-like dictionary
+    )
 
 # Index Page
 @app.route("/")
 def index():
+    # return 'Hello, World!'
     return render_template("index.html")
 
 # Navigation Page
@@ -38,20 +38,14 @@ def navigate():
 # Get all list of Countries
 @app.route("/get_all_country_list", methods=["GET"])
 def get_all_country_list():
-    conn = get_db_connection()
-    # conn = sqlite3.connect(DATABASE)
-    # conn.row_factory = sqlite3.Row  # Rows can be accessed as dictionaries
+    connection = get_db_connection()
     try:
-        cursor = conn.cursor()
-        columns = 'name, country_code'
-        cursor.execute(f'SELECT {columns} FROM country ORDER BY name ASC')
-        # cursor.execute(f"SELECT * FROM 'country' ORDER BY name ASC")
-        # cursor.execute('SELECT ' + columns + ' FROM country ORDER BY name ASC')
-
-        data = [dict(row) for row in cursor.fetchall()]
+        with connection.cursor() as cursor:
+            columns = 'name, Code'
+            cursor.execute('SELECT ' + columns + ' FROM world.country ORDER BY name ASC')
+            data = cursor.fetchall()
     finally:
-        conn.close()
-
+        connection.close()
 
     response_data = {"error": False, "data": data}
     return jsonify(response_data)
@@ -64,15 +58,13 @@ def get_state_list():
     if not country_code:
         return jsonify({"error": True, "msg": "parameter is missing, country_code is required"})
 
-    # query = f"SELECT * FROM states WHERE country_code = '{country_code}' ORDER BY name ASC"
-    query = f"SELECT * FROM states ORDER BY name ASC"
-
+    query = "SELECT * FROM india.states ORDER BY name ASC"
 
     connection = get_db_connection()
     try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        data = [dict(row) for row in cursor.fetchall()]
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            data = cursor.fetchall()
     finally:
         connection.close()
 
@@ -88,21 +80,17 @@ def get_district_list():
     if not country_code and not state_code:
         return jsonify({"error": True, "msg": "parameter is missing, country_code or state_code is required"})
 
-    query = "SELECT * FROM district"
+    query = "SELECT * FROM india.district"
 
     if state_code:
-        query += " WHERE state_code = ?"
-        params = (state_code,)
-    else:
-        params = ()
-
+        query += f" WHERE state_code = '{state_code}'"
     query += " ORDER BY name ASC"
 
     connection = get_db_connection()
     try:
-        cursor = connection.cursor()
-        cursor.execute(query, params)
-        data = [dict(row) for row in cursor.fetchall()]
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            data = cursor.fetchall()
     finally:
         connection.close()
 
@@ -119,24 +107,19 @@ def get_city_list():
     if not country_code and not state_code and not district_code:
         return jsonify({"error": True, "msg": "parameter is missing, country_code or state_code or district_code is required"})
 
-    query = "SELECT * FROM city"
+    query = "SELECT * FROM india.city"
 
     if district_code:
-        query += " WHERE district_id = ?"
-        params = (district_code,)
+        query += f" WHERE district_id = '{district_code}'"
     elif state_code:
-        query += " WHERE state_code = ?"
-        params = (state_code,)
-    else:
-        params = ()
-
+        query += f" WHERE state_code = '{state_code}'"
     query += " ORDER BY name ASC"
 
     connection = get_db_connection()
     try:
-        cursor = connection.cursor()
-        cursor.execute(query, params)
-        data = [dict(row) for row in cursor.fetchall()]
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            data = cursor.fetchall()
     finally:
         connection.close()
 
