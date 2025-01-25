@@ -11,11 +11,11 @@ app = Flask(__name__)
 app.secret_key = "ads2cf82bwdr54vdvfschsf3bf"
 app.url_map.strict_slashes = False
 
-DATABASE = "db/india.db"  # Path to the SQLite database file
+# DATABASE = "db/india.db"  # Path to the SQLite database file
 # DATABASE = "D:/Projects/Z Project/World_api/api/india.db"  # Full path to the SQLite database file
 
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# DATABASE = os.path.join(BASE_DIR, "db/india.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "db/india.db")
 # print(DATABASE)
 
 # Database configuration
